@@ -141,7 +141,7 @@ CREATE TABLE release_label (
     id              SERIAL,
     release_id      integer NOT NULL,
     label_id        integer,
-    label_name      text NOT NULL,
+    label_name      text,
     catno           text
 );
 
@@ -216,7 +216,7 @@ CREATE TABLE release_company (
     entity_type         text,
     entity_type_name    text,
     uri                 text
-); 
+);
 
 CREATE TABLE release_image (
     release_id      integer NOT NULL,
@@ -224,4 +224,3 @@ CREATE TABLE release_image (
     width           integer,
     height          integer
 );
-

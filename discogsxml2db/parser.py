@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 from itertools import zip_longest
 
 import lxml.etree as etree
@@ -66,6 +67,14 @@ def grouper(iterable, n, fillvalue=None):
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
+
+
+def clean_barcode(i):
+    if not i:
+        return None
+    i = re.sub(r'\D', '', i)
+    i = str(int(i))
+    return i
 
 
 class DiscogsDumpEntityParser(object):
@@ -334,9 +343,11 @@ class DiscogsReleaseParser(DiscogsDumpEntityParser):
     def element_identifiers(self, element):
         for child in element.iterchildren():
             entity = ReleaseIdentifier()
-            for k, v in child.attrib.items():
-                if k in ('description', 'type', 'value'):
-                    setattr(entity, k, v.strip())
+            d = {k: v.strip() for k, v in child.attrib.items() if k in ('description', 'type', 'value')}
+            if d['type'].lower() == 'barcode':
+                d['value'] = clean_barcode(d.get('value'))
+            for k, v in d.items():
+                setattr(entity, k, v)
             yield entity
 
     def element_companies(self, element):
