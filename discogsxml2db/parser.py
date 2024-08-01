@@ -71,9 +71,9 @@ def grouper(iterable, n, fillvalue=None):
 
 def clean_barcode(i):
     if not i:
-        return None
+        return ""
     i = re.sub(r'\D', '', i)
-    i = str(int(i))
+    i = str(int(i)) if i else ""
     return i
 
 

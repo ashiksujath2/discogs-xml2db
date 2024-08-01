@@ -1,7 +1,7 @@
 Instructions
 
 1. Converting dumps to csv
-python run.py --bz2 --apicounts --export artist --export label --export master --export release --output --limit=100000 csvdir media
+python run.py --bz2 --apicounts --export artist --export label --export master --export release --output csvdir --limit=100000 dump-dir
 
 2. Create db tables
 python postgresql/psql.py < postgresql/sql/CreateTables.sql
